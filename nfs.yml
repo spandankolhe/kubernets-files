@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: myapp
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: myapp
+  template:
+    metadata:
+      labels:
+        app: myapp
+    spec:
+      containers:
+      - name: myconatiner
+        image: nginx
+        ports:
+        - containerPort: 80
+        volumeMounts:   #pod path
+        - name: myesfvolume
+          mountPath: /usr/share/nginx/html/
+      volumes: #worker node path
+      - name: myesfvolume
+        nfs:
+          path: /
+          server: fs-05605b7f9862311e3.efs.ap-south-1.amazonaws.com

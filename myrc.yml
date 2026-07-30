@@ -1,0 +1,21 @@
+# replication controller file
+apiVersion: v1
+kind: ReplicationController
+metadata:
+  name: myrc
+spec:
+  replicas: 3
+  selector: # it helps to adopt the pod on basis of lables
+    app: myapp
+  template: #helps to create pod
+    metadata:
+      name: myapp
+      labels:
+        app: myapp
+    spec:
+      containers:
+        - name: mycontainer
+          image: nginx
+          ports:
+            - containerPort: 80
+
