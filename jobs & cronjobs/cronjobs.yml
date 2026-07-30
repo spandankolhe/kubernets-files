@@ -1,0 +1,27 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: mycronjob
+  labels:
+    app: processing
+spec:
+  schedule: "*/1 * * * *"
+  jobTemplate:
+    spec:
+      backoffLimit: 4
+      template:
+        metadata:
+          labels:
+            app: processing
+        spec:
+          containers:
+          - name: dataprocessing
+            image: python:3.9
+            command: ["python", "-c"]
+            args:
+            - |
+              print("processing data..........")
+              import time
+              time.sleep(10)
+              print("done")
+          restartPolicy: Never

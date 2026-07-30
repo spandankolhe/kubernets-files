@@ -1,0 +1,30 @@
+# bind mount -> folder -> /home/ec2-user/bkp -> /var/www/html
+# named mount -> myvol -> /var/www/html
+apiVersion: apps/v1 
+kind: Deployment
+metadata:
+  name: mydeploy
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: myapp
+  template:
+    metadata:
+      labels:
+        app: myapp
+    spec:
+      containers:
+      - name: mycontainer
+        image: nginx
+        ports:
+        - containerPort: 80
+        volumeMounts: # pod path
+        - name: myvolume # use
+          mountPath: /usr/share/nginx/html
+      volumes: # work node path 
+      - name: myvolume # create 
+        persistentVolumeClaim:
+          claimName: mypvc
+        
+          

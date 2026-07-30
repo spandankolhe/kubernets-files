@@ -1,0 +1,27 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: myjob
+  labels:
+    app: processing
+spec:
+  completions: 5
+  parallelism: 2
+  backoffLimit: 4
+  template:
+    metadata:
+      labels:
+        app: processing
+    spec:
+      containers:
+      - name: dataprocessing
+        image: python:3.9
+        command: ["python", "-c"]
+        args:
+        - |
+          print("processing data..........")
+          import time
+          time.sleep(10)
+          print("done")
+      restartPolicy: Never
+ 
